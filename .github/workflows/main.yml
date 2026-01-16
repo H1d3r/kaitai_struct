@@ -27,12 +27,7 @@ jobs:
       - name: build-compiler
         run: |
           cd compiler
-          export GIT_COMMIT=$(git log -1 --format=%h)
-          export GIT_DATE_ISO=$(TZ=UTC git log -1 --date=iso-strict-local --format=%cd)
-          export GIT_DATE=$(TZ=UTC git log -1 --date=format-local:%Y%m%d.%H%M%S --format=%cd)
-          export KAITAI_STRUCT_VERSION=0.12-SNAPSHOT${GIT_DATE}.${GIT_COMMIT}
-
-          echo "KAITAI_STRUCT_VERSION=$KAITAI_STRUCT_VERSION"
+          . ./setup_env.sh
 
           cat /dev/null | sbt \
             compile \
@@ -44,21 +39,6 @@ jobs:
             compilerJVM/universal:packageBin
 
       # TODO: add compilerJVM/rpm:packageBin
-
-      - id: publish-ksc-to-npm
-        name: publish JS compiler to npm
-        working-directory: compiler
-        run: ./publish_js_to_npm.sh
-        env:
-          NPM_API_KEY: ${{ secrets.NPM_TOKEN }}
-        continue-on-error: true
-
-      - name: trigger rebuild of ide.kaitai.io/devel
-        run: |
-          ./trigger-kaitai_struct_webide "$(jq -r .version compiler/js/npm/package.json)"
-        env:
-          KAITAI_STRUCT_WEBIDE_GITHUB_TOKEN: ${{ secrets.KAITAI_STRUCT_WEBIDE_GITHUB_TOKEN }}
-        if: ${{ success() && steps.publish-ksc-to-npm.outcome == 'success' }}
 
       - name: publish ksc to artifacts
         uses: actions/upload-artifact@v5
