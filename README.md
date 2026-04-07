@@ -2,7 +2,8 @@
 
 [![Join the chat at https://gitter.im/kaitai_struct/Lobby](https://badges.gitter.im/kaitai_struct/Lobby.svg)](https://gitter.im/kaitai_struct/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
-> **Note:** if you want to make changes to the project, do **not** fork this repository *kaitai_struct*. Instead, choose the component you want to modify in the file tree above and fork **that** individual component instead.
+> [!NOTE]
+> If you want to make changes to the project, do **not** fork this `kaitai_struct` repository. Instead, choose the component you want to modify in the file tree above and fork **that** individual component instead.
 >
 > This is an umbrella repository, containing the components only as submodules to make it easier to check out the entire project. Unless you want to modify this README, it is not the repo where you can make edits.
 
